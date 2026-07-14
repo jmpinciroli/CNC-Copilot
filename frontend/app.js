@@ -1,7 +1,19 @@
-function generar() {
+function generarCodigo(){
 
-    const codigo = `% 
+    const diametroInicial =
+        document.getElementById("diametroInicial").value;
+
+    const diametroFinal =
+        document.getElementById("diametroFinal").value;
+
+    const longitud =
+        document.getElementById("longitud").value;
+
+    const codigo =
+`%
 O1000
+
+(GENERADO POR CNC COPILOT)
 
 G21
 G18
@@ -12,16 +24,16 @@ T0101
 
 G97 S800 M03
 
-G00 X102 Z2
+G00 X${Number(diametroInicial)+2} Z2
 
-G01 X100 Z0 F0.25
+G01 X${diametroInicial} Z0 F0.25
 
-G01 X80 Z-120
+G01 X${diametroFinal} Z-${longitud}
+
+M05
 
 M30
+%`;
 
-%
-`;
-
-    document.getElementById("resultado").textContent = codigo;
+    document.getElementById("codigo").textContent = codigo;
 }

@@ -2,6 +2,7 @@ from models.calculadora import calcular_rpm
 from models.materiales import MATERIALES
 from fastapi import FastAPI
 from pydantic import BaseModel
+from models.herramientas import HERRAMIENTAS
 
 from generators.fanuc.cilindrado import generar_cilindrado
 from generators.fanuc.g71 import generar_g71
@@ -42,6 +43,14 @@ class G76Request(BaseModel):
 class RPMRequest(BaseModel):
     material: str
     diametro: float
+    
+
+class CilindradoAutoRequest(BaseModel):
+    material: str
+    herramienta: str
+    diametro_inicial: float
+    diametro_final: float
+    longitud: float
 
 
 @app.get("/")
@@ -126,4 +135,43 @@ def calcular_rpm_api(datos: RPMRequest):
         "vc": vc,
         "diametro": datos.diametro,
         "rpm": rpm
+    }
+
+@app.post("/generar/cilindrado-auto")
+def generar_cilindrado_auto(datos: CilindradoAutoRequest):
+
+    if datos.material not in MATERIALES:
+        return {
+            "error": "Material no encontrado"
+        }
+
+    if datos.herramienta not in HERRAMIENTAS:
+        return {
+            "error": "Herramienta no encontrada"
+        }
+
+    vc = MATERIALES[datos.material]["vc"]
+
+    avance = HERRAMIENTAS[datos.herramienta]["avance"]
+
+    rpm = calcular_rpm(
+        vc=vc,
+        diametro=datos.diametro_inicial
+    )
+
+    codigo = generar_cilindrado(
+        diametro_inicial=datos.diametro_inicial,
+        diametro_final=datos.diametro_final,
+        longitud=datos.longitud,
+        rpm=rpm,
+        avance=avance
+    )
+
+    return {
+        "material": datos.material,
+        "herramienta": datos.herramienta,
+        "vc": vc,
+        "rpm": rpm,
+        "avance": avance,
+        "codigo_g": codigo
     }

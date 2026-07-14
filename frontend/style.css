@@ -1,21 +1,55 @@
 body{
-    font-family: Arial;
-    max-width:800px;
+    font-family: Arial, sans-serif;
+    background:#f0f4f8;
+    margin:0;
+    padding:30px;
+}
+
+.container{
+    max-width:1000px;
     margin:auto;
-    padding:40px;
+}
+
+.card{
+    background:white;
+    padding:20px;
+    border-radius:12px;
+    box-shadow:0 0 10px rgba(0,0,0,0.1);
 }
 
 input,
 select,
 button{
-    display:block;
     width:100%;
-    margin-bottom:10px;
-    padding:10px;
+    padding:12px;
+    margin-top:8px;
+    margin-bottom:16px;
+    box-sizing:border-box;
+}
+
+button{
+    background:#2563eb;
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+button:hover{
+    background:#1d4ed8;
+}
+
+.resultado{
+    margin-top:20px;
+    background:white;
+    padding:20px;
+    border-radius:12px;
 }
 
 pre{
-    background:black;
-    color:#00ff00;
+    background:#111827;
+    color:#10b981;
     padding:20px;
+    border-radius:8px;
+    overflow:auto;
 }

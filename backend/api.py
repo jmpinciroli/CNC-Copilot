@@ -178,3 +178,18 @@ def generar_cilindrado_auto(datos: CilindradoAutoRequest):
         "avance": avance,
         "codigo_g": codigo
     }
+
+
+@app.get("/materiales")
+def obtener_materiales():
+    return MATERIALES
+
+@app.get("/materiales/{codigo}")
+def obtener_material(codigo: str):
+
+    if codigo not in MATERIALES:
+        return {
+            "error": "Material no encontrado"
+        }
+
+    return MATERIALES[codigo]

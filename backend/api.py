@@ -127,8 +127,3 @@ def calcular_rpm_api(datos: RPMRequest):
         "diametro": datos.diametro,
         "rpm": rpm
     }
-
-    return {
-        "operacion": "g76",
-        "codigo_g": codigo
-    }

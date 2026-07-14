@@ -1,3 +1,5 @@
+from models.calculadora import calcular_rpm
+from models.materiales import MATERIALES
 from fastapi import FastAPI
 from pydantic import BaseModel
 
@@ -35,6 +37,9 @@ class G76Request(BaseModel):
     paso: float
     longitud: float
     rpm: int
+    class RPMRequest(BaseModel):
+    material: str
+    diametro: float
 
 
 @app.get("/")
@@ -92,6 +97,27 @@ def generar_g76_api(datos: G76Request):
         longitud=datos.longitud,
         rpm=datos.rpm
     )
+    @app.post("/calcular/rpm")
+def calcular_rpm_api(datos: RPMRequest):
+
+    if datos.material not in MATERIALES:
+        return {
+            "error": "Material no encontrado"
+        }
+
+    vc = MATERIALES[datos.material]["vc"]
+
+    rpm = calcular_rpm(
+        vc=vc,
+        diametro=datos.diametro
+    )
+
+    return {
+        "material": datos.material,
+        "vc": vc,
+        "diametro": datos.diametro,
+        "rpm": rpm
+    }
 
     return {
         "operacion": "g76",

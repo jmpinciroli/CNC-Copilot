@@ -12,4 +12,3 @@ HERRAMIENTAS = {
         "ancho": 3
     }
 }
-``

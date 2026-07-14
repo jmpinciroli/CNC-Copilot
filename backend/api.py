@@ -37,7 +37,9 @@ class G76Request(BaseModel):
     paso: float
     longitud: float
     rpm: int
-    class RPMRequest(BaseModel):
+
+    
+class RPMRequest(BaseModel):
     material: str
     diametro: float
 
@@ -97,7 +99,14 @@ def generar_g76_api(datos: G76Request):
         longitud=datos.longitud,
         rpm=datos.rpm
     )
-    @app.post("/calcular/rpm")
+
+    return {
+        "operacion": "g76",
+        "codigo_g": codigo
+    }
+
+    
+@app.post("/calcular/rpm")
 def calcular_rpm_api(datos: RPMRequest):
 
     if datos.material not in MATERIALES:

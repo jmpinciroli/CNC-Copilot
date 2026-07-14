@@ -2,27 +2,53 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CNC Copilot</title>
-    <link rel="stylesheetdy>
+    style.css
+</head>
+<body>
 
-<h1>CNC Copilot</h1>
+<div class="container">
 
-<select id="operacion">
-    <option>Cilindrado</option>
-    <option>G71</option>
-    <option>G76</option>
-</select>
+    <h1>CNC Copilot</h1>
 
-<input id="diametroInicial" placeholder="Diámetro Inicial">
-<input id="diametroFinal" placeholder="Diámetro Final">
-<input id="longitud" placeholder="Longitud">
+    <div class="card">
 
-<button onclick="generar()">
-    Generar Código
-</button>
+        <h2>Nueva Programación</h2>
 
-<pre id="resultado"></pre>
+        <label>Operación</label>
+        <select id="operacion">
+            <option>Cilindrado</option>
+            <option>G71</option>
+            <option>G76</option>
+        </select>
 
-<script src="appody>
+        <label>Diámetro Inicial</label>
+        <input id="diametroInicial" type="number">
+
+        <label>Diámetro Final</label>
+        <input id="diametroFinal" type="number">
+
+        <label>Longitud</label>
+        <input id="longitud" type="number">
+
+        <button onclick="generarCodigo()">
+            Generar Código G
+        </button>
+
+    </div>
+
+    <div class="resultado">
+
+        <h2>Resultado</h2>
+
+        <pre id="codigo"></pre>
+
+    </div>
+
+</div>
+
+app.js>
+
+</body>
 </html>
-``

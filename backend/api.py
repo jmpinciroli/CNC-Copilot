@@ -1,3 +1,6 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
+
 from models.calculadora import calcular_rpm
 from models.materiales import MATERIALES
 from fastapi import FastAPI

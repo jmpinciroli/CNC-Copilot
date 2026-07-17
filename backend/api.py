@@ -208,3 +208,10 @@ def obtener_herramienta(codigo: str):
 
     return HERRAMIENTAS[codigo]
 
+@app.get("/catalogos")
+def obtener_catalogos():
+    return {
+        "materiales": MATERIALES,
+        "herramientas": HERRAMIENTAS
+    }
+

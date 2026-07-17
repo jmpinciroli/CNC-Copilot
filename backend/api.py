@@ -170,15 +170,16 @@ def generar_cilindrado_auto(datos: CilindradoAutoRequest):
         avance=avance
     )
 
-    return {
-        "material": datos.material,
-        "herramienta": datos.herramienta,
-        "vc": vc,
-        "rpm": rpm,
-        "avance": avance,
-        "codigo_g": codigo
-    }
-
+   return {
+    "success": True,
+    "programa": "O1000",
+    "material": datos.material,
+    "herramienta": datos.herramienta,
+    "vc": vc,
+    "rpm": rpm,
+    "avance": avance,
+    "codigo_g": codigo
+}
 
 @app.get("/materiales")
 def obtener_materiales():

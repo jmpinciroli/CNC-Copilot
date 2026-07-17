@@ -216,3 +216,21 @@ def obtener_catalogos():
         "materiales": MATERIALES,
         "herramientas": HERRAMIENTAS
     }
+
+@app.get("/operaciones")
+def obtener_operaciones():
+
+    return [
+        "Cilindrado",
+        "G71",
+        "G76",
+        "Refrentado",
+        "Ranurado",
+        "Tronzado"
+    ]
+
+@app.get("/health")
+def health():
+    return {
+        "status": "ok"
+    }

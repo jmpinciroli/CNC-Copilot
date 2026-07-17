@@ -193,3 +193,18 @@ def obtener_material(codigo: str):
         }
 
     return MATERIALES[codigo]
+
+@app.get("/herramientas")
+def obtener_herramientas():
+    return HERRAMIENTAS
+
+@app.get("/herramientas/{codigo}")
+def obtener_herramienta(codigo: str):
+
+    if codigo not in HERRAMIENTAS:
+        return {
+            "error": "Herramienta no encontrada"
+        }
+
+    return HERRAMIENTAS[codigo]
+

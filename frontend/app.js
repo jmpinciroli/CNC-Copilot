@@ -1,39 +1,45 @@
-function generarCodigo(){
+async function generarCodigo() {
 
     const diametroInicial =
-        document.getElementById("diametroInicial").value;
+        Number(document.getElementById("diametroInicial").value);
 
     const diametroFinal =
-        document.getElementById("diametroFinal").value;
+        Number(document.getElementById("diametroFinal").value);
 
     const longitud =
-        document.getElementById("longitud").value;
+        Number(document.getElementById("longitud").value);
 
-    const codigo =
-`%
-O1000
+    const datos = {
+        material: "SAE1045",
+        herramienta: "CNMG120408",
+        diametro_inicial: diametroInicial,
+        diametro_final: diametroFinal,
+        longitud: longitud
+    };
 
-(GENERADO POR CNC COPILOT)
+    try {
 
-G21
-G18
-G40
-G99
+        const respuesta = await fetch(
+            "https://ominous-potato-jrrjpxvj6v7vfq4rq-8000.app.github.dev/generar/cilindrado-auto",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(datos)
+            }
+        );
 
-T0101
+        const resultado = await respuesta.json();
 
-G97 S800 M03
+        document.getElementById("codigo").textContent =
+            resultado.codigo_g;
 
-G00 X${Number(diametroInicial)+2} Z2
+    } catch (error) {
 
-G01 X${diametroInicial} Z0 F0.25
+        document.getElementById("codigo").textContent =
+            "Error conectando con la API";
 
-G01 X${diametroFinal} Z-${longitud}
-
-M05
-
-M30
-%`;
-
-    document.getElementById("codigo").textContent = codigo;
+        console.error(error);
+    }
 }

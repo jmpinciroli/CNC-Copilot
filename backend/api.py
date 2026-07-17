@@ -215,5 +215,3 @@ def obtener_catalogos():
         "materiales": MATERIALES,
         "herramientas": HERRAMIENTAS
     }
-
-apapapaplol

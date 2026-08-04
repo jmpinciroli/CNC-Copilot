@@ -1,19 +1,26 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from models.calculadora import calcular_rpm
-from models.materiales import MATERIALES
-from fastapi import FastAPI
-from pydantic import BaseModel
-from models.herramientas import HERRAMIENTAS
+from .models.calculadora import calcular_rpm
+from .models.materiales import MATERIALES
+from .models.herramientas import HERRAMIENTAS
 
-from generators.fanuc.cilindrado import generar_cilindrado
-from generators.fanuc.g71 import generar_g71
-from generators.fanuc.g76 import generar_g76_metrica_exterior
+from .generators.fanuc.cilindrado import generar_cilindrado
+from .generators.fanuc.g71 import generar_g71
+from .generators.fanuc.g76 import generar_g76_metrica_exterior
 
 app = FastAPI(
     title="CNC Copilot API",
     version="0.1.0"
+)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 
 
@@ -54,6 +61,8 @@ class CilindradoAutoRequest(BaseModel):
     diametro_inicial: float
     diametro_final: float
     longitud: float
+    profundidad_pasada: float = 2.0
+    sobremetal: float = 0.3
 
 
 @app.get("/")
@@ -167,19 +176,22 @@ def generar_cilindrado_auto(datos: CilindradoAutoRequest):
         diametro_final=datos.diametro_final,
         longitud=datos.longitud,
         rpm=rpm,
-        avance=avance
+        avance=avance,
+        profundidad_pasada=datos.profundidad_pasada,
+        sobremetal=datos.sobremetal
     )
 
-   return {
-    "success": True,
-    "programa": "O1000",
-    "material": datos.material,
-    "herramienta": datos.herramienta,
-    "vc": vc,
-    "rpm": rpm,
-    "avance": avance,
-    "codigo_g": codigo
-}
+    return {
+        "success": True,
+        "programa": "O1000",
+        "material": datos.material,
+        "herramienta": datos.herramienta,
+        "vc": vc,
+        "rpm": rpm,
+        "avance": avance,
+        "codigo_g": codigo,
+        "profundidad_pasada": datos.profundidad_pasada
+    }
 
 @app.get("/materiales")
 def obtener_materiales():

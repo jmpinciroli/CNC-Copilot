@@ -9,26 +9,38 @@ async function generarCodigo() {
     const longitud =
         Number(document.getElementById("longitud").value);
 
+    const profundidadPasada =
+        Number(document.getElementById("profundidadPasada").value);
+
+    const sobremetal =
+        Number(document.getElementById("sobremetal").value);
+
     const datos = {
         material: material,
         herramienta: herramienta,
         diametro_inicial: diametroInicial,
         diametro_final: diametroFinal,
-        longitud: longitud
+        longitud: longitud,
+        profundidad_pasada: profundidadPasada,
+        sobremetal: sobremetal,
     };
 
     try {
 
         const respuesta = await fetch(
-    "https://ominous-potato-jrrjpxvj6v7vfq4rq-8000.app.github.dev/generar/cilindrado-auto",
-    {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json"
-        },
-        body: JSON.stringify(datos)
-    }
-    );
+            "https://ominous-potato-jrrjpxvj6v7vfq4rq-8000.app.github.dev/generar/cilindrado-auto",
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(datos)
+            }
+        );
+
+        if (!respuesta.ok) {
+            throw new Error(`API error ${respuesta.status}`);
+        }
 
         const resultado = await respuesta.json();
 
@@ -37,6 +49,7 @@ async function generarCodigo() {
         <p><strong>Vc:</strong> ${resultado.vc}</p>
         <p><strong>RPM:</strong> ${resultado.rpm}</p>
         <p><strong>Avance:</strong> ${resultado.avance}</p>
+        <p><strong>Profundidad de pasada:</strong> ${resultado.profundidad_pasada}</p>
         `;
 
         document.getElementById("codigo").textContent =

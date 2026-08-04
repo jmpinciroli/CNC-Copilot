@@ -10,8 +10,8 @@ async function generarCodigo() {
         Number(document.getElementById("longitud").value);
 
     const datos = {
-        material: "SAE1045",
-        herramienta: "CNMG120408",
+        material: material,
+        herramienta: herramienta,
         diametro_inicial: diametroInicial,
         diametro_final: diametroFinal,
         longitud: longitud

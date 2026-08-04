@@ -32,6 +32,13 @@ async function generarCodigo() {
 
         const resultado = await respuesta.json();
 
+        document.getElementById("datosProceso").innerHTML =
+        `
+        <p><strong>Vc:</strong> ${resultado.vc}</p>
+        <p><strong>RPM:</strong> ${resultado.rpm}</p>
+        <p><strong>Avance:</strong> ${resultado.avance}</p>
+        `;
+
         document.getElementById("codigo").textContent =
             resultado.codigo_g;
 

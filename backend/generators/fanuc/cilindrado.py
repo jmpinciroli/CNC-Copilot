@@ -6,6 +6,7 @@ def generar_cilindrado(
     avance,
     profundidad_pasada=2.0,
     sobremetal=0.3,
+    avance_acabado=0.12,
     herramienta="T0101"
 ):
     pasadas = ""
@@ -32,7 +33,7 @@ def generar_cilindrado(
             diametro_actual = diametro_desbaste
 
         cantidad_pasadas += 1
-        
+
         pasadas += (
             f"(DESBASTE)\n"
             f"G00 X{diametro_actual:.3f} Z2.000\n"
@@ -44,7 +45,7 @@ def generar_cilindrado(
     pasadas += (
     "(PASADA DE ACABADO)\n"
     f"G00 X{diametro_final + 1:.3f} Z2.000\n"
-    f"G01 X{diametro_final:.3f} F{avance * 0.7:.3f}\n"
+    f"G01 X{diametro_final:.3f} F{avance_acabado:.3f}\n"
     f"G01 Z-{longitud:.3f} F{avance * 0.7:.3f}\n"
 )
 

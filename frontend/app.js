@@ -19,6 +19,29 @@ async function generarCodigo() {
     const sobremetal =
         Number(document.getElementById("sobremetal").value);
 
+    const avanceAcabado =
+        Number(document.getElementById("avanceAcabado").value);
+
+    if (
+        diametroInicial <= 0 ||
+        diametroFinal <= 0 ||
+        longitud <= 0 ||
+        profundidadPasada <= 0 ||
+        sobremetal < 0 ||
+        avanceAcabado <= 0
+) {
+    codigoElemento.textContent =
+        "Completá los valores correctamente. Los diámetros, la longitud, la profundidad y el avance deben ser mayores que cero.";
+
+    return;
+}
+
+if (diametroFinal >= diametroInicial) {
+    codigoElemento.textContent =
+        "El diámetro final debe ser menor que el diámetro inicial.";
+
+    return;
+}
     const datos = {
         material: material,
         herramienta: herramienta,
@@ -27,6 +50,7 @@ async function generarCodigo() {
         longitud: longitud,
         profundidad_pasada: profundidadPasada,
         sobremetal: sobremetal,
+        avance_acabado: avanceAcabado
     };
 
     try {

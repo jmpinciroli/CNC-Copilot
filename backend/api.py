@@ -65,6 +65,7 @@ class CilindradoAutoRequest(BaseModel):
     longitud: float
     profundidad_pasada: float = 2.0
     sobremetal: float = 0.3
+    avance_acabado: float = 0.12
 
 
 @app.get("/api/info")
@@ -180,7 +181,9 @@ def generar_cilindrado_auto(datos: CilindradoAutoRequest):
         rpm=rpm,
         avance=avance,
         profundidad_pasada=datos.profundidad_pasada,
-        sobremetal=datos.sobremetal 
+        sobremetal=datos.sobremetal,
+        avance_acabado=datos.avance_acabado
+
     )
 
     diametro_desbaste = (
@@ -211,6 +214,7 @@ def generar_cilindrado_auto(datos: CilindradoAutoRequest):
         "vc": vc,
         "rpm": rpm,
         "avance": avance,
+        "avance_acabado": datos.avance_acabado,
         "profundidad_pasada": datos.profundidad_pasada,
         "sobremetal": datos.sobremetal,
         "cantidad_pasadas_desbaste": cantidad_pasadas_desbaste,

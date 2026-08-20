@@ -1,5 +1,9 @@
 async function generarCodigo() {
 
+    const material = document.getElementById("material").value;
+
+    const herramienta = document.getElementById("herramienta").value;
+
     const diametroInicial =
         Number(document.getElementById("diametroInicial").value);
 
@@ -27,8 +31,22 @@ async function generarCodigo() {
 
     try {
 
+        let apiBase;
+
+        if (window.location.port === "8000") {
+            apiBase = window.location.origin;
+        } else if (window.location.hostname.endsWith(".app.github.dev")) {
+            const apiHostname = window.location.hostname.replace(
+                /-\d+(?=\.app\.github\.dev$)/,
+                "-8000"
+            );
+            apiBase = `${window.location.protocol}//${apiHostname}`;
+        } else {
+            apiBase = `${window.location.protocol}//${window.location.hostname || "localhost"}:8000`;
+        }
+
         const respuesta = await fetch(
-            "https://ominous-potato-jrrjpxvj6v7vfq4rq-8000.app.github.dev/generar/cilindrado-auto",
+            `${apiBase}/generar/cilindrado-auto`,
             {
                 method: "POST",
                 headers: {
@@ -50,6 +68,8 @@ async function generarCodigo() {
         <p><strong>RPM:</strong> ${resultado.rpm}</p>
         <p><strong>Avance:</strong> ${resultado.avance}</p>
         <p><strong>Profundidad de pasada:</strong> ${resultado.profundidad_pasada}</p>
+        <p><strong>Pasadas de desbaste:</strong> ${resultado.cantidad_pasadas_desbaste}</p>
+        <p><strong>Pasadas totales:</strong> ${resultado.cantidad_pasadas_total}</p>
         `;
 
         document.getElementById("codigo").textContent =
@@ -58,7 +78,7 @@ async function generarCodigo() {
     } catch (error) {
 
         document.getElementById("codigo").textContent =
-            "Error conectando con la API";
+            `Error conectando con la API: ${error.message}`;
 
         console.error(error);
     }

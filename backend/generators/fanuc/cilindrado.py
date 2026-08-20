@@ -10,6 +10,8 @@ def generar_cilindrado(
 ):
     pasadas = ""
 
+    cantidad_pasadas = 0
+
     diametro_actual = diametro_inicial
 
     diametro_desbaste = diametro_final + (sobremetal*2)
@@ -29,6 +31,8 @@ def generar_cilindrado(
         if diametro_actual < diametro_desbaste:
             diametro_actual = diametro_desbaste
 
+        cantidad_pasadas += 1
+        
         pasadas += (
             f"(DESBASTE)\n"
             f"G00 X{diametro_actual:.3f} Z2.000\n"

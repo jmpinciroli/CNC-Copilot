@@ -1,3 +1,5 @@
+import math
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -65,7 +67,7 @@ class CilindradoAutoRequest(BaseModel):
     sobremetal: float = 0.3
 
 
-@app.get("/")
+@app.get("/api/info")
 def home():
     return {
         "app": "CNC Copilot",
@@ -178,8 +180,28 @@ def generar_cilindrado_auto(datos: CilindradoAutoRequest):
         rpm=rpm,
         avance=avance,
         profundidad_pasada=datos.profundidad_pasada,
-        sobremetal=datos.sobremetal
+        sobremetal=datos.sobremetal 
     )
+
+    diametro_desbaste = (
+        datos.diametro_final + datos.sobremetal * 2
+    )
+
+    reduccion_diametral = (
+        datos.diametro_inicial - diametro_desbaste
+    )
+
+    cantidad_pasadas_desbaste = max(
+        0,
+        math.ceil(
+            reduccion_diametral /
+            (datos.profundidad_pasada * 2)
+    )
+)
+
+    cantidad_pasadas_total = (
+        1 + cantidad_pasadas_desbaste + 1
+)
 
     return {
         "success": True,
@@ -189,8 +211,12 @@ def generar_cilindrado_auto(datos: CilindradoAutoRequest):
         "vc": vc,
         "rpm": rpm,
         "avance": avance,
+        "profundidad_pasada": datos.profundidad_pasada,
+        "sobremetal": datos.sobremetal,
+        "cantidad_pasadas_desbaste": cantidad_pasadas_desbaste,
+        "cantidad_pasadas_total": cantidad_pasadas_total,
         "codigo_g": codigo,
-        "profundidad_pasada": datos.profundidad_pasada
+    
     }
 
 @app.get("/materiales")
